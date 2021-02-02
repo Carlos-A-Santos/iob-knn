@@ -20,7 +20,7 @@ module iob_knn
 
     //combined hard/soft reset 
    `SIGNAL(rst_int, 1)
-   `COMB rst_int = rst | KNN_RESET;
+   `COMB rst_int = rst;
 
    //write signal
    `SIGNAL(write, 1) 
@@ -32,9 +32,12 @@ module iob_knn
    `SIGNAL_OUT(KNN_VALUE, 2*DATA_W)
    knn_core knn0
      (
-      .KNN_ENABLE(KNN_ENABLE),
       .clk(clk),
-      .rst(rst_int)
+      .rst(KNN_rst),
+      .en(KNN_en & write & valid),
+      .x(KNN_x),
+      .y_high(KNN_y_high),
+      .y_low(KNN_y_low)
       );
    
    
